@@ -8,8 +8,11 @@ RUN addgroup --gid $gid kata
 RUN useradd -m --uid $uid -g kata kata
 
 
-COPY requirements.txt /requirements.txt
+COPY requirements.txt /code/requirements.txt
+COPY tests /code/tests
+COPY kata /code/kata
+COPY linter.cfg /code
 RUN pip install --upgrade pip
-RUN pip install -r /requirements.txt
+RUN pip install -r /code/requirements.txt
 ENV PYTHONPATH=/code
 WORKDIR /code
