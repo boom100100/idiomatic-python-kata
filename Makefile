@@ -4,4 +4,4 @@ build:
 shell: build
 	docker run -it idiomatic-python /bin/bash
 test: build
-	docker run -it idiomatic-python pytest tests/
+	docker run -it idiomatic-python pytest -v tests/
