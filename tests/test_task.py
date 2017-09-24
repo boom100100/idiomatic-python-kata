@@ -1,5 +1,6 @@
-from kata.task import Task
 from unittest import TestCase
+
+from kata.task import Task
 
 
 class TestTask(TestCase):
@@ -31,3 +32,10 @@ class TestTask(TestCase):
         task = Task('a_task_name', 'a_checklist_1', 'a_checklist_2', 'a_checklist_3')
         assert task.name == 'a_task_name'
         assert task.checklists == ['a_checklist_1', 'a_checklist_2', 'a_checklist_3']
+
+    def test_archive_task(self):
+        task = Task('a_task')
+        archived = task.archive()
+
+        assert task.archived
+        assert archived

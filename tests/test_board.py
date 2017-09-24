@@ -1,5 +1,7 @@
-from kata.board import Board
 from unittest import TestCase
+
+from kata.board import Board
+from kata.task import Task
 
 TITLE = 'irrelevant_title'
 
@@ -52,3 +54,45 @@ class TestBoard(TestCase):
         assert board1.columns == ['ToDo', 'Done']
         assert board2.columns == ['Doing', 'Archived']
         assert board3.columns == ['OnHold']
+
+    def test_add_task(self):
+        board = Board(title=TITLE, columns=['ToDo', 'Done'])
+        task = Task('a_task')
+        board.add_task(column='ToDo', task=task)
+
+        assert board.get_tasks() == [task]
+
+    def test_add_tasks(self):
+        board = Board(title=TITLE, columns=['ToDo', 'Done'])
+        task1 = Task('a_task_1')
+        task2 = Task('a_task_2')
+        board.add_task(column='ToDo', task=task1)
+        board.add_task(column='ToDo', task=task2)
+
+        assert board.get_tasks() == [task1, task2]
+
+    def test_archive_all(self):
+        board = Board(title=TITLE, columns=['ToDo', 'Done'])
+        board.add_task(column='ToDo', task=Task('a_task_1'))
+        board.add_task(column='ToDo', task=Task('a_task_2'))
+        board.add_task(column='Done', task=Task('a_task_3'))
+
+        archived = board.archive_all()
+
+        assert archived
+        for task in board.get_task():
+            assert task.archived
+
+    def test_archive_all_by_column(self):
+        board = Board(title=TITLE, columns=['ToDo', 'Done'])
+        archived = board.archive_all(columns=['ToDo'])
+        board.add_task(column='ToDo', task=Task('a_task_1'))
+        board.add_task(column='ToDo', task=Task('a_task_2'))
+        board.add_task(column='Done', task=Task('a_task_3'))
+
+        assert archived
+        for task in board.get_task():
+            if task.name != 'a_task_3':
+                assert task.archived
+            else:
+                assert not task.archived
