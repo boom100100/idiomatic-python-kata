@@ -35,11 +35,12 @@ class TestBoard(TestCase):
         board.add_tags(tag)
         assert board.tags == [tag]
 
-    def test_add_none_tags(self):
+    def test_add_none_empty_tags(self):
         board = Board(title=TITLE)
+        board.add_tags('TAG')
         board.add_tags('')
         board.add_tags(None)
-        assert board.tags == []
+        assert board.tags == ['TAG']
 
     def test_columns(self):
         board1 = Board(title=TITLE, columns=['ToDo', 'Done'])
