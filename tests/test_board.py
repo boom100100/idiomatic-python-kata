@@ -40,7 +40,7 @@ class TestBoard(TestCase):
         board.add_tags('TAG')
         board.add_tags('')
         board.add_tags(None)
-        assert board.tags == []
+        assert board.tags == ['TAG']
 
     def test_columns(self):
         board1 = Board(title=TITLE, columns=['ToDo', 'Done'])
