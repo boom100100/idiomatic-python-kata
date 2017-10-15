@@ -22,19 +22,20 @@ The rest of the logic will be describe via unit tests. This module is the one in
 
 In order to run the code we can use:
 1. The Makefile have predefined commands that runs in a docker container:
-  * `make build`: to build the container
-  * `make shell`: to run an interactive bash console inside the container.
-  * `make test`: to run all the tests
+   * `make build`: to build the container
+   * `make shell`: to run an interactive bash console inside the container.
+   * `make test`: to run all the tests
 
 2. Virtualenv:
-Create and activate
-```
-python3 -m venv venv
-source venv/bin/activate
-EXPORT PYTHONPATH=<your_path>
-```
 
-Deactive
-```
-deactivate
-```
+   Create and activate
+   ```
+   python3 -m venv venv
+   source venv/bin/activate
+   EXPORT PYTHONPATH=<your_path>
+   ```
+
+   Deactive
+   ```
+   deactivate
+   ```
