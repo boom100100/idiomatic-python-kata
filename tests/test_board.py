@@ -1,5 +1,8 @@
-from kata.board import Board
-from kata.task import Task
+import pytest
+from unittest.mock import MagicMock, Mock
+
+from kata.board import Board, BoardException
+from kata.task import Task, TaskException
 
 TITLE = 'irrelevant_title'
 
@@ -16,7 +19,7 @@ def test_is_not_public_when_false():
     assert board.is_public is False
 
 
-def test_is_not_public_when_None():
+def test_is_not_public_when_none():
     board = Board(title=TITLE, is_public=None)
     assert isinstance(board, Board)
     assert board.is_public is False
@@ -64,7 +67,7 @@ def test_add_task():
     task = Task('a_task')
     board.add_task(column='ToDo', task=task)
 
-    assert board.get_tasks() == [task]
+    assert board.tasks == [task]
 
 
 def test_add_tasks():
@@ -74,7 +77,7 @@ def test_add_tasks():
     board.add_task(column='ToDo', task=task1)
     board.add_task(column='ToDo', task=task2)
 
-    assert board.get_tasks() == [task1, task2]
+    assert board.tasks == [task1, task2]
 
 
 def test_archive_all():
@@ -86,7 +89,7 @@ def test_archive_all():
     archived = board.archive_all()
 
     assert archived
-    for task in board.get_tasks():
+    for task in board.tasks:
         assert task.archived
 
 
@@ -99,22 +102,38 @@ def test_archive_all_by_column():
     archived = board.archive_all(columns=['ToDo'])
 
     assert archived
-    for task in board.get_tasks():
+    for task in board.tasks:
         if task.name != 'a_task_3':
             assert task.archived
         else:
             assert not task.archived
 
 
-def test_close_board(mocker):
+def test_close_board():
     board = Board(title=TITLE, columns=['ToDo'])
-    spy = mocker.spy(board, 'notify_close')
+    board.notify_close = Mock()
     board.add_task(column='ToDo', task=Task('a_task_1'))
     board.add_task(column='ToDo', task=Task('a_task_2'))
 
     board.close()
 
     assert board.is_closed
-    for task in board.get_tasks():
+    for task in board.tasks:
         assert task.archived
-    spy.assert_called_once_with()
+    board.notify_close.assert_called_once()
+
+
+def test_close_board_when_archive_fail():
+    board = Board(title=TITLE, columns=['ToDo'])
+    task = Task('a_task_1')
+    task.archive = Mock(side_effect=TaskException('irrelevant_message'))
+    task.notify_close = MagicMock()
+    board.add_task(column='ToDo', task=Task('a_task_2'))
+    board.add_task(column='ToDo', task=task)
+
+    with pytest.raises(BoardException):
+        board.close()
+
+    assert not board.is_closed
+    assert not task.archived
+    task.notify_close.assert_not_called()
