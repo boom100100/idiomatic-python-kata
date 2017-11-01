@@ -8,15 +8,15 @@ This kata assumes you have basic knowledge of python and unit testing.
 The main objective is to practice python within pair programming and debate about different type of resolutions that come to minds due to the variety of reources the language provide.
 The steps to accomplish the kata are:
 1. Initial Status: All Test are in red ( except linter test)
-2. Work in pair programming or alone to put all the tests in green. Having in mind that `tests` module is immutable.
+2. Work in pair programming or alone to put all the tests in green. Having in mind that `tests` package is immutable.
 3. Delete the code.
 
 ## Code Structure
 
-The code is divided in two modules:
-+ `Kata`: Module that contains the logic of a Task Board, where the key concept is that we can add tasks to columns within a board and classify boards using tags. 
-The rest of the logic will be describe via unit tests. This module is the one in wich we code to complete the kata. 
-+ `Tests`: MOdule containg the specification of the Board's logic using unit test and [pytest library](https://doc.pytest.org/). This module is immutable when we are accomplishing the kata.
+The code is divided in two packages:
++ `Kata`: Package that contains the logic of a Task Board, where the key concept is that we can add tasks to columns within a board and classify boards using tags. 
+The rest of the logic will be describe via unit tests. This package is the one in wich we code to complete the kata. 
++ `Tests`: Package containg the specification of the Board's logic using unit test and [pytest library](https://doc.pytest.org/). This package is immutable when we are accomplishing the kata.
 
 ## Environment
 
